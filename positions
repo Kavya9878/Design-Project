@@ -1,0 +1,106 @@
+positions
+
+sutd@SUTD:~$ ros2 topic echo /clicked_point
+start
+header:
+  stamp:
+    sec: 1753932054
+    nanosec: 527398251
+  frame_id: map
+point:
+  x: 3.8672661781311035
+  y: -1.938331961631775
+  z: 0.003513336181640625
+---
+r1
+header:
+  stamp:
+    sec: 1753932205
+    nanosec: 562261217
+  frame_id: map
+point:
+  x: 5.401646614074707
+  y: 0.5679720640182495
+  z: 0.000102996826171875
+---
+r2
+header:
+  stamp:
+    sec: 1753932257
+    nanosec: 334654852
+  frame_id: map
+point:
+  x: 7.1726484298706055
+  y: 2.5578365325927734
+  z: 0.002132415771484375
+---
+r21
+header:
+  stamp:
+    sec: 1753932272
+    nanosec: 367439496
+  frame_id: map
+point:
+  x: 4.758491516113281
+  y: 5.045022964477539
+  z: -0.00140380859375
+---
+r3
+header:
+  stamp:
+    sec: 1753932289
+    nanosec: 309965623
+  frame_id: map
+point:
+  x: -2.736375570297241
+  y: 3.4312853813171387
+  z: 0.00273895263671875
+---
+r31
+header:
+  stamp:
+    sec: 1753932294
+    nanosec: 910187523
+  frame_id: map
+point:
+  x: -2.250734329223633
+  y: 6.094691753387451
+  z: -0.000545501708984375
+---
+r4
+header:
+  stamp:
+    sec: 1753932303
+    nanosec: 675500129
+  frame_id: map
+point:
+  x: -0.07590034604072571
+  y: 7.628844261169434
+  z: 0.0010528564453125
+---
+r41
+header:
+  stamp:
+    sec: 1753932306
+    nanosec: 947965671
+  frame_id: map
+point:
+  x: 0.4844783544540405
+  y: 9.523351669311523
+  z: 0.002956390380859375
+---
+
+
+
+echo:
+p2:
+- Translation: [5.649, 0.015, 0.010]
+- Rotation: in Quaternion [0.000, 0.000, 0.877, -0.480]
+- Rotation: in RPY (radian) [0.000, -0.000, -2.140]
+- Rotation: in RPY (degree) [0.000, -0.000, -122.615]
+- Matrix:
+ -0.539  0.842  0.000  5.649
+ -0.842 -0.539  0.000  0.015
+  0.000  0.000  1.000  0.010
+  0.000  0.000  0.000  1.000
+
