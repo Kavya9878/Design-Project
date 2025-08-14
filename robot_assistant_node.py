@@ -11,7 +11,7 @@ import threading
 from collections import deque
 import time
 
-# 位置定义
+#Different Rooms in the map
 locations = {
     "start": [3.8672661781311035, -1.938331961631775, 0.00351333618164062, 0.000, 0.000, -0.009, 1.000],
     "room1": [5.401646614074707, 0.5679720640182495, 0.000102996826171875, 0.0, 0.0, 0.0, 1.0],
@@ -22,70 +22,40 @@ locations = {
     "room4": [-0.07590034604072571, 7.628844261169434, 0.0, 0.0, 0.0, 0.0, 1.0],
     "room41": [0.4844783544540405, 9.523351669311523, 0.0, 0.0, 0.0, 0.0, 1.0],
 }
-class RI_Challenge(Node):
+class Robot_Assistant(Node):
     def __init__(self):
-        super().__init__('ri_challenge')
-        self.get_logger().info("Starting RI Challenge Node")
+        super().__init__('robot_assistant')
+        self.get_logger().info("Starting Robot Assistant Node")
 
-        # 发布器
-        self.alert_publisher_ = self.create_publisher(String, '/alert', 10)
+        # Publisher node for reminder
+        self.reminder_publisher_ = self.create_publisher(String, '/reminder', 10)
 
-        # 订阅器
+        # Subscribeer node for bounding boxes
         self.bounding_box_subscriber = self.create_subscription(
             BoundingBox, '/bounding_boxes', self.bounding_box_callback, 10)
 
         self.detection_image_subscriber = self.create_subscription(
             CompressedImage, '/image_output_topic/compressed', self.detection_output_image_callback, 10)
 
-        self.target_room_subscriber = self.create_subscription(
-            String, '/target_room', self.target_room_callback, 10)
+        self.correct_room_subscriber = self.create_subscription(
+            String, '/target_room', self.correct_room_callback, 10)
 
-        # 导航控制
+        #Navigation
         self.navigator = BasicNavigator()
         self.set_initial_pose(locations["start"])
         self.navigator.waitUntilNav2Active()
         self.get_logger().info("Navigation stack ready")
 
-        # 检测参数
+        # Detection
         self.detection_queue = deque()
         self.detection_frame_count = 0
         self.detection_label = ""
 
-    def target_room_callback(self, msg):
+    def correct_room_callback(self, msg):
         room_name = msg.data.strip()
         if room_name in locations:
-            self.get_logger().info(f"Received target room: {room_name}")
+            self.get_logger().info(f"Received correct room: {room_name}")
             self.navigate_to_target(locations[room_name])
-
-            # 检测是否有人
-            intruder_detected = self.detect('person', frame_count=4, min_detections=2)
-            if intruder_detected:
-                self.send_alert(f"intruder at {room_name}")
-            else:
-                self.send_alert(f"clear at {room_name}")
-        else:
-            self.get_logger().warn(f"Unknown room: {room_name}")
-
-    def detect(self, label, frame_count=1, min_detections=1, timeout=10.0):
-        self.detection_label = label
-        self.detection_queue.clear()
-        self.detection_frame_count = 0
-        self.detection_start_time = time.time()
-
-        while self.detection_frame_count < frame_count:
-            if timeout < (time.time() - self.detection_start_time):
-                self.get_logger().warn(f"Detection Timeout: {label}")
-                return False
-            time.sleep(0.1)
-
-        if len(self.detection_queue) >= min_detections:
-            self.get_logger().info(f"Detected: {label}")
-            return True
-        else:
-            return False
-
-    def detection_output_image_callback(self, msg):
-        self.detection_frame_count += 1
 
     def bounding_box_callback(self, msg):
         if self.detection_label != msg.label:
@@ -138,21 +108,16 @@ class RI_Challenge(Node):
             self.get_logger().error("Navigation failed")
             return False
 
-    def send_alert(self, msg):
-        alert_msg = String()
-        alert_msg.data = msg
-        self.alert_publisher_.publish(alert_msg)
-
 def main(args=None):
     rclpy.init(args=args)
-    ri_challenge = RI_Challenge()
+    robot_assistant = Robot_Assistant()
     executor = MultiThreadedExecutor()
-    executor.add_node(ri_challenge)
+    executor.add_node(robot_assistant)
 
     try:
         executor.spin()
     finally:
-        ri_challenge.destroy_node()
+        robot_assistant.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
