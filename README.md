@@ -1,2 +1,2 @@
 # Design-Project
-Our Codes, design and experiments
+This is our final version of Our Codes, design, and experiments for our nodes
