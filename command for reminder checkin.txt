@@ -1,0 +1,51 @@
+# Reminder_checkin
+
+This package subscribes to a std_msgs/String topic and plays an audio file at the specific timings.
+
+* Morining Checkin
+* MOrning medication
+* Lunch reminder
+* Friend Reminder
+* Teatime checkin
+* Night Medication
+
+---
+## 📦 Install Dependencies
+
+Ensure all necessary system packages are installed:
+
+```bash
+pip install playsound
+```
+
+---
+## 🚀 Clone and Build the Packages
+
+1. Copy the `reminder_checkin` package to your ROS workspace (e.g., `~/ros2_ws/src`):
+```bash
+cp -r reminder_checkin ~/ros2_ws/src/
+```
+
+2. Build the packages & Source the workspace:
+```bash
+cd ~/ros2_ws
+colcon build --symlink-install --packages-up-to reminder_checkin
+source ~/.bashrc
+```
+
+---
+## 📍Launch the Package
+
+The package can be launched using ros2 run or the package launch file.
+```bash
+ros2 launch reminder_checkin reminder_checkin.launch.py
+```
+
+### 📎 Testing
+
+1. Open a new terminal and enter:
+```bash
+ros2 topic pub -1 /reminder std_msgs/msg/String data:\ 'morning_checkin'
+```
+
+You should hear "Morning_checkin" audio file being played! Make sure your sound is not muted!
