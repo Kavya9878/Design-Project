@@ -3,7 +3,7 @@ tb:
 ros2 launch camera_ros camera.launch.py
 ros2 launch tb3_launcher turtlebot3.launch.py slam:=True
 sutd:
-ros2 run initial_follower inital_follower_node
+ros2 run initial_follower initial_follower_node
 
 
 voice command:
@@ -15,5 +15,5 @@ ros2 launch tb3_launcher turtlebot3.launch.py map:=${HOME}/tb_ws/src/tb3_launche
 
 sutd
 rviz2
-ros2 launch robot_assistant robot_assistant.py
-ros2 topic pub /target_room std_msgs/String "data: 'room1'"
+ros2 launch robot_assistant Navigation_VoiceCommand.py
+ros2 topic pub /correct_room std_msgs/String "data: 'room1'"
