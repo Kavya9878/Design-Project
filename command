@@ -3,7 +3,7 @@ tb:
 ros2 launch camera_ros camera.launch.py
 ros2 launch tb3_launcher turtlebot3.launch.py slam:=True
 sutd:
-ros2 run yolo_follower yolo_follower_node
+ros2 run initial_follower inital_follower_node
 
 
 voice command:
